@@ -278,9 +278,9 @@ public class ChatManager {
 		player1.sendMessage(ChatColor.GRAY + "[" + group.getName() + "] "
 				+ player + ": " + ChatColor.WHITE + chat);
 		for (Player reciever : players) {
-			if ((!group.isMember(reciever.getName())
-					&& !group.isFounder(reciever.getName())
-					&& !group.isModerator(reciever.getName())) ||
+			if ((!group.isMember(reciever.getUniqueId())
+					&& !group.isFounder(reciever.getUniqueId())
+					&& !group.isModerator(reciever.getUniqueId())) ||
 					!isGroupAllowed(reciever.getName(), group.getName())) {
 				continue;
 			}
