@@ -1,25 +1,5 @@
 package com.untamedears.civchat;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
-
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
-import org.kitteh.vanish.VanishManager;
-import org.kitteh.vanish.VanishPlugin;
-import org.kitteh.vanish.staticaccess.VanishNoPacket;
-
-import com.untamedears.citadel.Citadel;
-import com.untamedears.citadel.entity.Faction;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -30,10 +10,25 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.Set;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
+
+import com.untamedears.citadel.Citadel;
+import com.untamedears.citadel.entity.Faction;
 
 /*
  * Coded by ibbignerd and Rourke750
@@ -461,8 +456,11 @@ public class ChatManager {
 				String parts[] = line.split(" ");
 				String owner = parts[0];
 				List<String> participants = new ArrayList<>();
+				Faction group = Citadel.getGroupManager().getGroup(owner);
 				for (int x = 1; x < parts.length; x++) {
-					participants.add(parts[x]);
+					UUID uuid = Bukkit.getOfflinePlayer(parts[x]).getUniqueId();
+					if (group.isFounder(uuid) || group.isModerator(uuid) || group.isMember(uuid))
+						participants.add(parts[x]);
 				}
 				allowedGroupList.put(owner, participants);
 			}

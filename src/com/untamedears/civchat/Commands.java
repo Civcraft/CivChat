@@ -1,5 +1,8 @@
 package com.untamedears.civchat;
 
+import java.util.HashMap;
+import java.util.UUID;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -12,13 +15,6 @@ import org.kitteh.vanish.staticaccess.VanishNotLoadedException;
 
 import com.untamedears.citadel.Citadel;
 import com.untamedears.citadel.entity.Faction;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /*
  * Coded by Rourke750 & ibbignerd
@@ -170,9 +166,14 @@ public class Commands implements CommandExecutor {
 			return true;
 		}
 		else if (args.length > 0){
-			boolean isGroup = Citadel.getGroupManager().isGroup(args[0]);
+			Faction group = Citadel.getGroupManager().getGroup(args[0]);
+			boolean isGroup = group != null;
+			UUID uuid = ((Player) sender).getUniqueId();
 			if (!isGroup){
 				sender.sendMessage(ChatColor.RED + "Group: "+args[0]+" is not a real group!");
+			}
+			else if (!(group.isFounder(uuid) || group.isMember(uuid) || group.isModerator(uuid))){
+				sender.sendMessage(ChatColor.RED + "You cannot join that group you are not on it.");
 			}
 			else {
 				boolean value = chatManager.addOrRemoveGroup(sender.getName(), args[0]);
