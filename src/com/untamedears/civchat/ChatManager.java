@@ -11,7 +11,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -265,7 +264,10 @@ public class ChatManager {
 
 	public void GroupChat(Faction group, String message, String player) {
 		Player player1 = Bukkit.getPlayer(player);
-		Collection<Player> players = Bukkit.getOnlinePlayers();
+		List<Player> players = new ArrayList<Player>();
+		for(Player p : Bukkit.getOnlinePlayers()){
+			players.add(p);
+		}
 		String chat = message;
 		if (!isGroupAllowed(player, group.getName())){
 			player1.sendMessage(ChatColor.RED + "Error: you need to /gallow this group to speak or hear from it.");
@@ -340,7 +342,10 @@ public class ChatManager {
 	}
 
 	public String playerCheck(String player) {
-		Collection<Player> onlineList = Bukkit.getOnlinePlayers();
+		List<Player> onlineList = new ArrayList<Player>();
+		for(Player p : Bukkit.getOnlinePlayers()){
+			onlineList.add(p);
+		}
 		for (Player check : onlineList) {
 			if (check.getName().startsWith(player)) {
 				return check.getName();
