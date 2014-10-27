@@ -264,7 +264,7 @@ public class ChatManager {
 
 	public void GroupChat(Faction group, String message, String player) {
 		Player player1 = Bukkit.getPlayer(player);
-		Player[] players = Bukkit.getOnlinePlayers();
+		List<Player> players = Bukkit.getOnlinePlayers();
 		String chat = message;
 		if (!isGroupAllowed(player, group.getName())){
 			player1.sendMessage(ChatColor.RED + "Error: you need to /gallow this group to speak or hear from it.");
@@ -339,7 +339,7 @@ public class ChatManager {
 	}
 
 	public String playerCheck(String player) {
-		Player[] onlineList = Bukkit.getOnlinePlayers();
+		List<Player> onlineList = Bukkit.getOnlinePlayers();
 		for (Player check : onlineList) {
 			if (check.getName().startsWith(player)) {
 				return check.getName();
