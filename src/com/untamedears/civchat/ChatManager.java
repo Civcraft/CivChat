@@ -462,9 +462,10 @@ public class ChatManager {
 				String parts[] = line.split(" ");
 				String owner = parts[0];
 				List<String> participants = new ArrayList<>();
-				Faction group = Citadel.getGroupManager().getGroup(owner);
+				UUID uuid = Bukkit.getOfflinePlayer(owner).getUniqueId();
+				Faction group = null;
 				for (int x = 1; x < parts.length; x++) {
-					UUID uuid = Bukkit.getOfflinePlayer(parts[x]).getUniqueId();
+					group = Citadel.getGroupManager().getGroup(parts[x]);
 					if (group.isFounder(uuid) || group.isModerator(uuid) || group.isMember(uuid))
 						participants.add(parts[x]);
 				}
