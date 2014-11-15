@@ -1,6 +1,6 @@
 name: CivChat
 main: com.untamedears.civchat.CivChat
-version: 1.36
+version: 1.37
 authors: [Rourke750, ibbignerd]
 softdepend: [vanishnopacket]
 depend: [Citadel]
