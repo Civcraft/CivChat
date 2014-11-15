@@ -475,7 +475,7 @@ public class ChatManager {
 			}
 			br.close();
 			fis.close();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
