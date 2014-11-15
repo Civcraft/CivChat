@@ -466,18 +466,28 @@ public class ChatManager {
 				Faction group = null;
 				for (int x = 1; x < parts.length; x++) {
 					group = Citadel.getGroupManager().getGroup(parts[x]);
-					if (group == null)
-						break;
+					if (group == null){
+						String log = "The group: " + parts[x] + " was not found.";
+						Bukkit.getLogger().log(Level.INFO, log);
+						continue;
+					}
 					if (group.isFounder(uuid) || group.isModerator(uuid) || group.isMember(uuid))
 						participants.add(parts[x]);
 				}
 				allowedGroupList.put(owner, participants);
 			}
-			br.close();
-			fis.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		finally{
+			try {
+				br.close();
+				fis.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
