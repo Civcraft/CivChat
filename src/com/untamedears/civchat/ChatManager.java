@@ -466,6 +466,8 @@ public class ChatManager {
 				Faction group = null;
 				for (int x = 1; x < parts.length; x++) {
 					group = Citadel.getGroupManager().getGroup(parts[x]);
+					if (group == null)
+						break;
 					if (group.isFounder(uuid) || group.isModerator(uuid) || group.isMember(uuid))
 						participants.add(parts[x]);
 				}
