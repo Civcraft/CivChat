@@ -13,8 +13,8 @@ import org.kitteh.vanish.VanishManager;
 import org.kitteh.vanish.staticaccess.VanishNoPacket;
 import org.kitteh.vanish.staticaccess.VanishNotLoadedException;
 
-import com.untamedears.citadel.Citadel;
-import com.untamedears.citadel.entity.Faction;
+import vg.civcraft.mc.namelayer.NameAPI;
+import vg.civcraft.mc.namelayer.group.Group;
 
 /*
  * Coded by Rourke750 & ibbignerd
@@ -166,13 +166,13 @@ public class Commands implements CommandExecutor {
 			return true;
 		}
 		else if (args.length > 0){
-			Faction group = Citadel.getGroupManager().getGroup(args[0]);
+			Group group = NameAPI.getGroupManager().getGroup(args[0]);
 			boolean isGroup = group != null;
 			UUID uuid = ((Player) sender).getUniqueId();
 			if (!isGroup){
 				sender.sendMessage(ChatColor.RED + "Group: "+args[0]+" is not a real group!");
 			}
-			else if (!(group.isFounder(uuid) || group.isMember(uuid) || group.isModerator(uuid))){
+			else if (!(group.isMember(uuid))){
 				sender.sendMessage(ChatColor.RED + "You cannot join that group you are not on it.");
 			}
 			else {
@@ -385,17 +385,12 @@ public class Commands implements CommandExecutor {
 			}
 		}
 		StringBuilder message = new StringBuilder();
-		Faction group = Citadel.getGroupManager().getGroup(args[0]);
+		Group group = NameAPI.getGroupManager().getGroup(args[0]);
 		if (group == null) {
 			sender.sendMessage(ChatColor.RED + "Error: Not a valid group name.");
 			return true;
 		}
-		if (!Citadel.getGroupManager().getGroup(group.getName())
-				.isMember(player.getUniqueId())
-				&& !Citadel.getGroupManager().getGroup(group.getName())
-						.isModerator(player.getUniqueId())
-				&& !Citadel.getGroupManager().getGroup(group.getName())
-						.isFounder(player.getUniqueId())) {
+		if (!group.isMember(player.getUniqueId())) {
 			sender.sendMessage(ChatColor.RED + "You are not in that group.");
 			return true;
 		}

@@ -1,9 +1,9 @@
 name: CivChat
 main: com.untamedears.civchat.CivChat
-version: 1.39
+version: 1.40
 authors: [Rourke750, ibbignerd]
 softdepend: [vanishnopacket]
-depend: [Citadel]
+depend: [Citadel, NameLayer]
 commands:
    tell:
       description: Sends a player a message.
