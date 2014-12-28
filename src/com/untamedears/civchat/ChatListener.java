@@ -1,17 +1,18 @@
 package com.untamedears.civchat;
 
-import com.untamedears.citadel.entity.Faction;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+
+import vg.civcraft.mc.namelayer.group.Group;
 
 /*
  * Coded by Rourke750 & ibbignerd
@@ -51,7 +52,7 @@ public class ChatListener implements Listener {
         String message = event.getMessage();
         Player player = event.getPlayer();
         String channel = chat.getChannel(player.getName());
-        Faction group = chat.getGroupTalk(player.getName());
+        Group group = chat.getGroupTalk(player.getName());
 
         if (channel != null) {
             Player to = Bukkit.getPlayerExact(channel);

@@ -27,8 +27,8 @@ import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
-import com.untamedears.citadel.Citadel;
-import com.untamedears.citadel.entity.Faction;
+import vg.civcraft.mc.namelayer.NameAPI;
+import vg.civcraft.mc.namelayer.group.Group;
 
 /*
  * Coded by ibbignerd and Rourke750
@@ -57,7 +57,7 @@ public class ChatManager {
 	public String whisperChar;
 	public int whisperDist;
 	private String whisperColor;
-	private HashMap<String, Faction> groupchat = new HashMap<String, Faction>();
+	private HashMap<String, Group> groupchat = new HashMap<String, Group>();
 	private HashMap<String, String> channels = new HashMap<String, String>();
 	private String replacement = "abcdefghijklmnopqrstuvwxyz";
 	private HashMap<Player, Long> shoutList = new HashMap<Player, Long>();
@@ -262,7 +262,7 @@ public class ChatManager {
 		}
 	}
 
-	public void GroupChat(Faction group, String message, String player) {
+	public void GroupChat(Group group, String message, String player) {
 		Player player1 = Bukkit.getPlayer(player);
 		List<Player> players = new ArrayList<Player>();
 		for(Player p : Bukkit.getOnlinePlayers()){
@@ -276,9 +276,7 @@ public class ChatManager {
 		player1.sendMessage(ChatColor.GRAY + "[" + group.getName() + "] "
 				+ player + ": " + ChatColor.WHITE + chat);
 		for (Player reciever : players) {
-			if ((!group.isMember(reciever.getUniqueId())
-					&& !group.isFounder(reciever.getUniqueId())
-					&& !group.isModerator(reciever.getUniqueId())) ||
+			if ((!group.isMember(reciever.getUniqueId())) ||
 					!isGroupAllowed(reciever.getName(), group.getName())) {
 				continue;
 			}
@@ -296,7 +294,7 @@ public class ChatManager {
 		SaveChat(player1, "GroupChat", group.getName() + " -> " + message);
 	}
 
-	public void addGroupTalk(String player, Faction group) {
+	public void addGroupTalk(String player, Group group) {
 		if (getGroupTalk(player) != null) {
 			groupchat.put(player, group);
 		} else {
@@ -305,7 +303,7 @@ public class ChatManager {
 
 	}
 
-	public Faction getGroupTalk(String player) {
+	public Group getGroupTalk(String player) {
 		return groupchat.get(player);
 	}
 
@@ -463,15 +461,15 @@ public class ChatManager {
 				String owner = parts[0];
 				List<String> participants = new ArrayList<>();
 				UUID uuid = Bukkit.getOfflinePlayer(owner).getUniqueId();
-				Faction group = null;
+				Group group = null;
 				for (int x = 1; x < parts.length; x++) {
-					group = Citadel.getGroupManager().getGroup(parts[x]);
+					group = NameAPI.getGroupManager().getGroup(parts[x]);
 					if (group == null){
 						String log = "The group: " + parts[x] + " was not found.";
 						Bukkit.getLogger().log(Level.INFO, log);
 						continue;
 					}
-					if (group.isFounder(uuid) || group.isModerator(uuid) || group.isMember(uuid))
+					if (group.isMember(uuid))
 						participants.add(parts[x]);
 				}
 				allowedGroupList.put(owner, participants);
